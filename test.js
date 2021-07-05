@@ -1,2 +1,1 @@
-function test()
-{return {a:1}}
+function test(){return {a:1}}
