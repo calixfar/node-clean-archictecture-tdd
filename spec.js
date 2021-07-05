@@ -1,0 +1,1 @@
+function res(){return {a:1}}
