@@ -20,4 +20,10 @@ module.exports = class HttpResonse {
       body: new UnauthorizedError()
     }
   }
+
+  static ok () {
+    return {
+      statusCode: 200
+    }
+  }
 }
