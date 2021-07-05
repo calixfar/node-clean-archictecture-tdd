@@ -1,0 +1,1 @@
+function clear(){return{a:1}}
