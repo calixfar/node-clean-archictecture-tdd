@@ -6,10 +6,12 @@ const makeSut = () => {
     async compare (password, hashedPassword) {
       this.password = password
       this.hashedPassword = hashedPassword
+      return this.isValid
     }
   }
 
   const encryterSpy = new EncrypterSpy()
+  encryterSpy.isValid = true
   class LoadUserByEmailRopositorySpy {
     async load (email) {
       this.email = email
@@ -61,8 +63,7 @@ describe('Auth UseCase', () => {
     expect(accessToken).toBeNull()
   })
   test('Should return null if an invalid password is provided', async () => {
-    const { sut, loadUserByEmailRopositorySpy } = makeSut()
-    loadUserByEmailRopositorySpy.user = null
+    const { sut } = makeSut()
     const accessToken = await sut.auth('valid_email@email.com', 'invalid_password')
     expect(accessToken).toBeNull()
   })
