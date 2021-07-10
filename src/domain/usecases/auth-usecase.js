@@ -18,5 +18,6 @@ module.exports = class AuthUseCase {
       return null
     }
     await this.encryterSpy.compare(password, user.password)
+    return null
   }
 }
