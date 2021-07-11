@@ -18,6 +18,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@shelf/jest-mongodb": "^2.0.1",
     "husky": "^4.3.8",
     "jest": "^27.0.6",
     "lint-staged": "^11.0.0",
