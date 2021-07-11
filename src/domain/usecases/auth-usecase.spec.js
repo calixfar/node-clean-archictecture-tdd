@@ -16,7 +16,7 @@ const makeEncrypter = () => {
 const makeEncrypterWithError = () => {
   class EncrypterSpy {
     async compare () {
-      return new Error()
+      throw new Error()
     }
   }
   return new EncrypterSpy()
@@ -35,7 +35,7 @@ const makeTokenGenerator = () => {
 const makeTokenGeneratorWithError = () => {
   class TokenGeneratorSpy {
     async generate () {
-      return new Error()
+      throw new Error()
     }
   }
   return new TokenGeneratorSpy()
@@ -57,7 +57,7 @@ const makeLoadUserByEmailRopository = () => {
 const makeLoadUserByEmailRepositoryWithError = () => {
   class LoadUserByEmailRopositorySpy {
     async load () {
-      return new Error()
+      throw new Error()
     }
   }
   return new LoadUserByEmailRopositorySpy()
