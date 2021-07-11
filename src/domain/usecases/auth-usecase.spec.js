@@ -69,8 +69,15 @@ const makeUpdateAccessTokenRepository = () => {
       this.accessToken = accessToken
     }
   }
-  const updateAccessTokenRepositorySpy = new UpdateAccessTokenRepositorySpy()
-  return updateAccessTokenRepositorySpy
+  return new UpdateAccessTokenRepositorySpy()
+}
+const makeUpdateAccessTokenRepositoryWithError = () => {
+  class UpdateAccessTokenRepositorySpy {
+    async update () {
+      throw new Error()
+    }
+  }
+  return new UpdateAccessTokenRepositorySpy()
 }
 const makeSut = () => {
   const encrypterSpy = makeEncrypter()
@@ -147,6 +154,7 @@ describe('Auth UseCase', () => {
     const invalid = {}
     const loadUserByEmailRopository = makeLoadUserByEmailRopository()
     const encrypter = makeEncrypter()
+    const tokenGenerator = makeTokenGenerator()
     const suts = [
       new AuthUseCase(),
       new AuthUseCase({}),
@@ -168,6 +176,17 @@ describe('Auth UseCase', () => {
         loadUserByEmailRopository,
         encrypter,
         tokenGenerator: invalid
+      }),
+      new AuthUseCase({
+        loadUserByEmailRopository,
+        encrypter,
+        tokenGenerator
+      }),
+      new AuthUseCase({
+        loadUserByEmailRopository,
+        encrypter,
+        tokenGenerator,
+        updateAccessTokenRepository: invalid
       })
     ]
     for (const sut of suts) {
@@ -178,6 +197,7 @@ describe('Auth UseCase', () => {
   test('Should throw if any dependency throws', async () => {
     const loadUserByEmailRopository = makeLoadUserByEmailRopository()
     const encrypter = makeEncrypter()
+    const tokenGenerator = makeTokenGenerator()
     const suts = [
       new AuthUseCase({
         loadUserByEmailRopository: makeLoadUserByEmailRepositoryWithError()
@@ -190,6 +210,12 @@ describe('Auth UseCase', () => {
         loadUserByEmailRopository,
         encrypter,
         tokenGenerator: makeTokenGeneratorWithError()
+      }),
+      new AuthUseCase({
+        loadUserByEmailRopository,
+        encrypter,
+        tokenGenerator,
+        updateAccessTokenRepository: makeUpdateAccessTokenRepositoryWithError()
       })
     ]
     for (const sut of suts) {
